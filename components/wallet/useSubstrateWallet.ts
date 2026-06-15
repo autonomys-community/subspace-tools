@@ -11,7 +11,7 @@ function getStore() {
     storeInstance = createWalletStore({
       dappName: 'Subspace Tools',
       ss58Prefix: 6094,
-      storageKey: 'autonomys-helpers-substrate-wallet',
+      storageKey: 'subspace-tools-substrate-wallet',
     });
   }
   return storeInstance;

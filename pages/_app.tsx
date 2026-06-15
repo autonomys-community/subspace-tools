@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
             Subspace Tools
           </Link>
           <a
-            href="https://github.com/autonomys-community/autonomys-helpers"
+            href="https://github.com/autonomys-community/subspace-tools"
             target="_blank"
             rel="noopener noreferrer"
             className="d-flex align-items-center gap-1 text-muted text-decoration-none small"
