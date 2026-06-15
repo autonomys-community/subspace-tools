@@ -43,6 +43,8 @@ export default function SendPage() {
       networkConfig.evmChainId,
       getEvmChainDisplayName(selectedNetwork),
       networkConfig.evmRpcHttp,
+      networkConfig.networkImage,
+      networkConfig.nativeSymbol,
     );
   }, [evmWallet, networkConfig]);
 
