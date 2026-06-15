@@ -1,0 +1,111 @@
+// Subspace Tools theme — recompiles Bootstrap with brand variables, then
+// layers on a few custom surface/component tweaks. Imported in _app.tsx in
+// place of the precompiled bootstrap CSS.
+
+// 1. Bootstrap functions (needed before overriding variables)
+@import "bootstrap/scss/functions";
+
+// 2. Brand variable overrides (override Bootstrap !default values)
+$primary: #4f46e5; // indigo
+$body-bg: #f6f7f9;
+$body-color: #2b2f3a;
+$border-color: #e6e8ec;
+
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.875rem;
+
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+$enable-shadows: false;
+$card-border-color: $border-color;
+$card-cap-bg: transparent;
+
+// 3. The rest of Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// 4. Custom polish on top of Bootstrap
+:root {
+  --st-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --st-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+}
+
+body {
+  // Slightly tighter, more deliberate text rendering
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.navbar {
+  box-shadow: var(--st-shadow-sm);
+}
+
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+// Tool cards on the landing page
+.tool-card {
+  display: block;
+  height: 100%;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+  background: #fff;
+  padding: 1.25rem 1.25rem 1.1rem;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.tool-card:hover {
+  border-color: $primary;
+  box-shadow: var(--st-shadow-md);
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.tool-card__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.tool-card__desc {
+  color: var(--bs-secondary-color);
+  font-size: 0.925rem;
+  margin-bottom: 0;
+}
+
+.section-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+}
+
+// Monospace treatment for addresses / hashes / amounts
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+// Site footer
+.site-footer {
+  border-top: 1px solid var(--bs-border-color);
+  background: #fff;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+}
+
+.site-footer a {
+  color: var(--bs-secondary-color);
+}
+
+.site-footer a:hover {
+  color: $primary;
+}
