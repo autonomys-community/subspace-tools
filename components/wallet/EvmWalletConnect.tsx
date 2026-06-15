@@ -114,7 +114,7 @@ const EvmWalletConnect: React.FC<EvmWalletConnectProps> = ({
         </div>
       ) : noWallets ? (
         <div className="small text-muted">
-          No EVM wallet detected. Install one to continue —{' '}
+          No EVM wallet detected. Install one to continue:{' '}
           <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">MetaMask</a>,{' '}
           <a href="https://rabby.io/" target="_blank" rel="noopener noreferrer">Rabby</a>,{' '}
           or any browser wallet that supports EIP-6963.
