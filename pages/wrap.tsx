@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Alert, Button, ButtonGroup, Card, Form, Modal, Spinner, ToggleButton } from 'react-bootstrap';
+import { Alert, Button, Card, Form, Modal, Spinner } from 'react-bootstrap';
+import SegmentedControl from '../components/SegmentedControl';
 import { JsonRpcProvider } from 'ethers';
 import { ai3ToShannons, shannonsToAi3 } from '@autonomys/auto-utils';
 import NetworkSelector from '../components/NetworkSelector';
@@ -379,23 +380,17 @@ export default function WrapPage() {
 
       <div className="mb-3">
         <label className="form-label fw-bold">Step 3 - Choose direction</label>
-        <ButtonGroup className="w-100">
-          {DIRECTIONS.map((d) => (
-            <ToggleButton
-              key={d}
-              id={`wrap-dir-${d}`}
-              type="radio"
-              variant={direction === d ? 'primary' : 'outline-primary'}
-              name="wrapDirToggle"
-              value={d}
-              checked={direction === d}
-              disabled={isSubmitting}
-              onChange={() => setDirection(d)}
-            >
-              {directionLabel(d, nativeSymbol, wrappedSymbol)}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
+        <SegmentedControl
+          name="wrapDirToggle"
+          ariaLabel="Wrap direction"
+          value={direction}
+          disabled={isSubmitting}
+          options={DIRECTIONS.map((d) => ({
+            value: d,
+            label: directionLabel(d, nativeSymbol, wrappedSymbol),
+          }))}
+          onChange={setDirection}
+        />
         <div className="small text-muted mt-2">
           {isWrap ? (
             <>

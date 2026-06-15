@@ -109,3 +109,48 @@ body {
 .site-footer a:hover {
   color: $primary;
 }
+
+// Segmented control — modern replacement for joined toggle button groups
+.segmented {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+  padding: 3px;
+  background: #eceef1;
+  border-radius: 0.6rem;
+}
+
+.segmented__option {
+  flex: 1 1 0;
+  margin: 0;
+  text-align: center;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--bs-secondary-color);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.segmented__option:not(.segmented__option--active):hover {
+  color: var(--bs-body-color);
+}
+
+.segmented__option--active {
+  background: #fff;
+  color: $primary;
+  box-shadow: inset 0 0 0 1.5px $primary, var(--st-shadow-sm);
+}
+
+.segmented__option:has(input:focus-visible) {
+  outline: 2px solid $primary;
+  outline-offset: 1px;
+}
+
+.segmented__option:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}

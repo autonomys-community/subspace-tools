@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { ButtonGroup, ToggleButton } from 'react-bootstrap';
+import SegmentedControl from '../../components/SegmentedControl';
 import NetworkSelector from '../../components/NetworkSelector';
 import SubstrateWalletConnect from '../../components/wallet/SubstrateWalletConnect';
 import EvmWalletConnect from '../../components/wallet/EvmWalletConnect';
@@ -100,25 +100,16 @@ export default function SendPage() {
 
       <div className="mb-4">
         <label className="form-label fw-bold">Transfer Direction:</label>
-        <ButtonGroup className="w-100">
-          {DIRECTIONS.map((d) => (
-            <ToggleButton
-              key={d.value}
-              id={`dir-${d.value}`}
-              type="radio"
-              variant={direction === d.value ? 'primary' : 'outline-primary'}
-              name="directionToggle"
-              value={d.value}
-              checked={direction === d.value}
-              onChange={() => {
-                setDirection(d.value);
-                setSubmitError(null);
-              }}
-            >
-              {d.label}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
+        <SegmentedControl
+          name="directionToggle"
+          ariaLabel="Transfer direction"
+          value={direction}
+          options={DIRECTIONS}
+          onChange={(value) => {
+            setDirection(value);
+            setSubmitError(null);
+          }}
+        />
       </div>
 
       <div className="mb-4">
