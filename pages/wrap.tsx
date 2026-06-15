@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Alert, Button, Card, Form, Modal, Spinner } from 'react-bootstrap';
+import { Accordion, Alert, Button, Card, Form, Modal, Spinner } from 'react-bootstrap';
 import SegmentedControl from '../components/SegmentedControl';
 import { JsonRpcProvider } from 'ethers';
 import { ai3ToShannons, shannonsToAi3 } from '@autonomys/auto-utils';
@@ -268,42 +268,66 @@ export default function WrapPage() {
     <div className="container py-3 py-md-5" style={{ maxWidth: 720 }}>
       <h1 className="fs-3">Wrap & Unwrap AI3</h1>
       <p className="text-muted">
-        Convert native AI3 into the ERC-20 token <strong>WAI3</strong> (and back). WAI3 is a
-        WETH-style wrapper that lets AI3 be used in DeFi protocols, AMMs, and other
-        contracts that expect an ERC-20 interface.
+        Convert native AI3 into the ERC-20 token <strong>WAI3</strong>, and back.
       </p>
 
-      <Card className="mb-4 border-info">
-        <Card.Body>
-          <Card.Title className="fs-6">Why wrap?</Card.Title>
-          <ul className="small mb-2">
-            <li>
-              <strong>Native AI3</strong> is the Auto EVM gas token - like ETH on Ethereum.
-              Most smart contracts can&apos;t accept it directly as a function argument.
-            </li>
-            <li>
-              <strong>WAI3</strong> is a standard ERC-20 backed 1:1 by native AI3 held in
-              the wrapper contract. Any ERC-20-aware contract can use it.
-            </li>
-            <li>
-              Wrapping locks AI3 in the contract and mints WAI3 to you. Unwrapping burns WAI3
-              and releases AI3 back to your account. The rate is always 1:1; no fees beyond gas.
-            </li>
-          </ul>
-          <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="small">
-            Read the full docs
-          </a>
-        </Card.Body>
-      </Card>
+      <Accordion className="mb-4">
+        <Accordion.Item eventKey="why-wrap">
+          <Accordion.Header>Why wrap?</Accordion.Header>
+          <Accordion.Body>
+            <ul className="small mb-2">
+              <li>
+                <strong>Native AI3</strong> is the Auto EVM gas token - like ETH on Ethereum.
+                Most smart contracts can&apos;t accept it directly as a function argument.
+              </li>
+              <li>
+                <strong>WAI3</strong> is a standard ERC-20 backed 1:1 by native AI3 held in
+                the wrapper contract. Most dapps, including DeFi protocols and AMMs, expect an
+                ERC-20 interface, so they need WAI3 rather than native AI3.
+              </li>
+              <li>
+                Wrapping locks AI3 in the contract and mints WAI3 to you. Unwrapping burns WAI3
+                and releases AI3 back to your account. The rate is always 1:1; no fees beyond gas.
+              </li>
+            </ul>
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="small">
+              Read the full docs
+            </a>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
 
       <NetworkSelector selectedNetwork={selectedNetwork} onChange={setSelectedNetwork} disabled={isSubmitting} />
 
       <Card className="mb-4">
         <Card.Body>
-          <div className="fw-bold mb-2">Step 1 - Prepare your wallet</div>
+          <div className="fw-bold mb-2">Step 1 - Connect EVM wallet</div>
+          <EvmWalletConnect
+            isConnected={evmWallet.isConnected}
+            isLoading={evmWallet.isLoading}
+            address={evmWallet.address}
+            chainId={evmWallet.chainId}
+            expectedChainId={networkConfig.evmChainId}
+            expectedChainName={getEvmChainDisplayName(selectedNetwork)}
+            error={evmWallet.error}
+            discoveredWallets={evmWallet.discoveredWallets}
+            hasDetected={evmWallet.hasDetected}
+            hasLegacyProvider={evmWallet.hasLegacyProvider}
+            connectedRdns={evmWallet.connectedRdns}
+            onConnect={evmWallet.connect}
+            onDisconnect={evmWallet.disconnect}
+            onSwitchChain={handleSwitchEvmChain}
+            onClearError={evmWallet.clearError}
+          />
+        </Card.Body>
+      </Card>
+
+      <Card className="mb-4">
+        <Card.Body>
+          <div className="fw-bold mb-2">Step 2 - Prepare your wallet</div>
           <p className="small text-muted mb-3">
-            Make sure the Auto EVM network is added to your wallet, and (optionally) add the
-            WAI3 token so it appears in your wallet&apos;s asset list.
+            Add the {networkConfig.name} Auto EVM network (chain {networkConfig.evmChainId}) to
+            your wallet, and optionally the {wrappedSymbol} token so it appears in your asset list.
           </p>
           <div className="d-flex flex-wrap gap-2">
             <Button
@@ -316,9 +340,9 @@ export default function WrapPage() {
               // a multi-wallet setup (and on EIP-6963-only wallets with
               // no window.ethereum the call would silently no-op).
               disabled={!evmWallet.isConnected || isSubmitting}
-              title={!evmWallet.isConnected ? 'Connect a wallet below first' : undefined}
+              title={!evmWallet.isConnected ? 'Connect a wallet first' : undefined}
             >
-              Add {networkConfig.name} Auto EVM (chain {networkConfig.evmChainId})
+              Add network
             </Button>
             <Button
               variant="outline-primary"
@@ -336,13 +360,13 @@ export default function WrapPage() {
               }
               title={
                 !evmWallet.isConnected
-                  ? 'Connect a wallet below first'
+                  ? 'Connect a wallet first'
                   : evmWallet.chainId !== networkConfig.evmChainId
                   ? `Switch your wallet to ${networkConfig.name} Auto EVM first`
                   : undefined
               }
             >
-              Add {wrappedSymbol} token to wallet
+              Add token
             </Button>
           </div>
           {addTokenStatus && (
@@ -357,57 +381,38 @@ export default function WrapPage() {
         </Card.Body>
       </Card>
 
-      <div className="mb-3">
-        <label className="form-label fw-bold">Step 2 - Connect EVM wallet</label>
-        <EvmWalletConnect
-          isConnected={evmWallet.isConnected}
-          isLoading={evmWallet.isLoading}
-          address={evmWallet.address}
-          chainId={evmWallet.chainId}
-          expectedChainId={networkConfig.evmChainId}
-          expectedChainName={getEvmChainDisplayName(selectedNetwork)}
-          error={evmWallet.error}
-          discoveredWallets={evmWallet.discoveredWallets}
-          hasDetected={evmWallet.hasDetected}
-          hasLegacyProvider={evmWallet.hasLegacyProvider}
-          connectedRdns={evmWallet.connectedRdns}
-          onConnect={evmWallet.connect}
-          onDisconnect={evmWallet.disconnect}
-          onSwitchChain={handleSwitchEvmChain}
-          onClearError={evmWallet.clearError}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label fw-bold">Step 3 - Choose direction</label>
-        <SegmentedControl
-          name="wrapDirToggle"
-          ariaLabel="Wrap direction"
-          value={direction}
-          disabled={isSubmitting}
-          options={DIRECTIONS.map((d) => ({
-            value: d,
-            label: directionLabel(d, nativeSymbol, wrappedSymbol),
-          }))}
-          onChange={setDirection}
-        />
-        <div className="small text-muted mt-2">
-          {isWrap ? (
-            <>
-              Wrapping calls the <code>payable</code> function{' '}
-              <code>deposit()</code> on the WAI3 contract, attaching the amount of{' '}
-              {nativeSymbol} as the transaction&apos;s <code>value</code>. The contract
-              holds the {nativeSymbol} and mints an equal amount of {wrappedSymbol} to you.
-            </>
-          ) : (
-            <>
-              Unwrapping calls <code>withdraw(uint256 amount)</code> on the WAI3 contract,
-              passing the amount as an argument. The contract burns your {wrappedSymbol}{' '}
-              and releases an equal amount of native {nativeSymbol} back to your address.
-            </>
-          )}
-        </div>
-      </div>
+      <Card className="mb-4">
+        <Card.Body>
+          <div className="fw-bold mb-2">Step 3 - Choose direction</div>
+          <SegmentedControl
+            name="wrapDirToggle"
+            ariaLabel="Wrap direction"
+            value={direction}
+            disabled={isSubmitting}
+            options={DIRECTIONS.map((d) => ({
+              value: d,
+              label: directionLabel(d, nativeSymbol, wrappedSymbol),
+            }))}
+            onChange={setDirection}
+          />
+          <div className="small text-muted mt-2">
+            {isWrap ? (
+              <>
+                Wrapping calls the <code>payable</code> function{' '}
+                <code>deposit()</code> on the WAI3 contract, attaching the amount of{' '}
+                {nativeSymbol} as the transaction&apos;s <code>value</code>. The contract
+                holds the {nativeSymbol} and mints an equal amount of {wrappedSymbol} to you.
+              </>
+            ) : (
+              <>
+                Unwrapping calls <code>withdraw(uint256 amount)</code> on the WAI3 contract,
+                passing the amount as an argument. The contract burns your {wrappedSymbol}{' '}
+                and releases an equal amount of native {nativeSymbol} back to your address.
+              </>
+            )}
+          </div>
+        </Card.Body>
+      </Card>
 
       <Card>
         <Card.Body>
