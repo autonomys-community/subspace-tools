@@ -129,7 +129,7 @@ export async function addWai3ToWallet(
 ): Promise<AddWai3Result> {
   const target = rawProvider ?? (typeof window !== 'undefined' ? window.ethereum : undefined);
   if (!target) return { ok: false, reason: 'no-wallet' };
-  const { wai3Address, wrappedSymbol, evmChainId } = NETWORKS[network];
+  const { wai3Address, wrappedSymbol, evmChainId, wrappedTokenImage } = NETWORKS[network];
   try {
     const walletChainHex = await target.request({ method: 'eth_chainId' }) as string;
     const walletChainId = parseInt(walletChainHex, 16);
@@ -149,7 +149,7 @@ export async function addWai3ToWallet(
           // Absolute URL: the wallet fetches this itself. Wallets that
           // honour EIP-747's image field (e.g. MetaMask) show it as the
           // token icon; others ignore it.
-          image: 'https://subspace.tools/wai3-logo.png',
+          image: wrappedTokenImage,
         },
       } as unknown as unknown[],
     });
