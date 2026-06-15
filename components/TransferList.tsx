@@ -20,8 +20,7 @@ const TransferList: React.FC<TransferListProps> = ({ transfers, searchAddress, p
     if (network !== 'mainnet') {
       params.set('network', network);
     }
-    const basePath = process.env.NODE_ENV === 'production' ? '/autonomys-helpers' : '';
-    const url = `${window.location.origin}${basePath}/xdm/transfers/?${params.toString()}`;
+    const url = `${window.location.origin}/xdm/transfers/?${params.toString()}`;
 
     try {
       await navigator.clipboard.writeText(url);
