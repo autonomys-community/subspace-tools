@@ -9,7 +9,7 @@ let storeInstance: ReturnType<typeof createWalletStore> | null = null;
 function getStore() {
   if (!storeInstance) {
     storeInstance = createWalletStore({
-      dappName: 'Autonomys Helpers',
+      dappName: 'Subspace Tools',
       ss58Prefix: 6094,
       storageKey: 'autonomys-helpers-substrate-wallet',
     });

@@ -1,4 +1,4 @@
-# Autonomys Helpers
+# Subspace Tools
 
 A collection of tools for working with the Autonomys Network and ecosystem.
 
@@ -59,7 +59,7 @@ This will:
 
 You can access the deployed site at:
 
-📦 https://autonomys-community.github.io/autonomys-helpers/
+📦 https://subspace.tools/
 
 ---
 

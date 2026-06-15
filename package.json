@@ -1,8 +1,8 @@
 {
-  "name": "autonomys-helpers",
+  "name": "subspace-tools",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://autonomys-community.github.io/autonomys-helpers",
+  "homepage": "https://subspace.tools",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

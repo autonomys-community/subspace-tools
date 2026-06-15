@@ -1,14 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { AppProps } from 'next/app'
+import Head from 'next/head'
 import Link from 'next/link'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <title>Subspace Tools</title>
+        <meta name="description" content="A collection of tools for working with the Autonomys Network and ecosystem." />
+      </Head>
       <nav className="navbar navbar-light bg-white border-bottom">
         <div className="container d-flex justify-content-between align-items-center">
           <Link href="/" className="navbar-brand fw-bold">
-            Autonomys Helpers
+            Subspace Tools
           </Link>
           <a
             href="https://github.com/autonomys-community/autonomys-helpers"

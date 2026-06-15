@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <div className="container py-5">
-      <h1>Autonomys Helpers</h1>
+      <h1>Subspace Tools</h1>
 
       <h2 className="fs-4 mt-4">XDM</h2>
       <ul>
