@@ -146,6 +146,10 @@ export async function addWai3ToWallet(
           address: wai3Address,
           symbol: wrappedSymbol,
           decimals: 18,
+          // Absolute URL: the wallet fetches this itself. Wallets that
+          // honour EIP-747's image field (e.g. MetaMask) show it as the
+          // token icon; others ignore it.
+          image: 'https://subspace.tools/wai3-logo.png',
         },
       } as unknown as unknown[],
     });
