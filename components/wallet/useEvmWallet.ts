@@ -30,7 +30,7 @@ interface EvmWalletState {
    */
   connect: (rdns?: string) => Promise<void>;
   disconnect: () => void;
-  switchChain: (chainId: number, chainName: string, rpcUrl: string, iconUrl?: string, nativeSymbol?: string) => Promise<void>;
+  switchChain: (chainId: number, chainName: string, rpcUrl: string, iconUrl: string, nativeSymbol: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -175,7 +175,7 @@ export function useEvmWallet(): EvmWalletState {
     }
   }, [discoveredWallets]);
 
-  const switchChain = useCallback(async (targetChainId: number, chainName: string, rpcUrl: string, iconUrl?: string, nativeSymbol: string = 'AI3') => {
+  const switchChain = useCallback(async (targetChainId: number, chainName: string, rpcUrl: string, iconUrl: string, nativeSymbol: string) => {
     const raw = rawProviderRef.current ?? window.ethereum;
     if (!raw) return;
 
@@ -199,7 +199,7 @@ export function useEvmWallet(): EvmWalletState {
               // EIP-3085 network icon. Honoured by some wallets; MetaMask
               // currently ignores it (it only shows icons for networks in
               // its own registry), but it's harmless and forward-compatible.
-              iconUrls: iconUrl ? [iconUrl] : undefined,
+              iconUrls: [iconUrl],
             }],
           });
         } catch (addError) {

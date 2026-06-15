@@ -18,7 +18,7 @@ export const NETWORKS = {
     wrappedSymbol: 'WAI3',
     wai3Address: '0x7ba06C7374566c68495f7e4690093521F6B991bb',
     networkImage: 'https://subspace.tools/icons/auto-evm-mainnet.png',
-    tokenImage: 'https://subspace.tools/icons/wai3-mainnet.png',
+    wrappedTokenImage: 'https://subspace.tools/icons/wai3-mainnet.png',
   },
   chronos: {
     name: 'Chronos Testnet',
@@ -42,7 +42,7 @@ export const NETWORKS = {
     wrappedSymbol: 'WAI3',
     wai3Address: '0xeAb23556Ec571bA10F4C3C8051d719E58e921caC',
     networkImage: 'https://subspace.tools/icons/auto-evm-chronos.png',
-    tokenImage: 'https://subspace.tools/icons/wai3-chronos.png',
+    wrappedTokenImage: 'https://subspace.tools/icons/wai3-chronos.png',
   },
 } as const;
 
