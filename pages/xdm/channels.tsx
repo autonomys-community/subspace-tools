@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ButtonGroup, ToggleButton } from 'react-bootstrap';
+import SegmentedControl from '../../components/SegmentedControl';
 import { fetchChannels } from '../../utils/fetchChannels';
 import ChannelList from '../../components/ChannelList';
 import ChainSummaryCard from '../../components/ChainSummaryCard';
@@ -100,30 +100,16 @@ export default function ChannelsPage() {
           </div>
           <div className="col-md-6 mb-3">
             <label className="form-label fw-bold">Select Chain:</label>
-            <ButtonGroup className="w-100">
-              <ToggleButton
-                id="toggle-consensus"
-                type="radio"
-                variant={selectedChain === 'consensus' ? 'primary' : 'outline-primary'}
-                name="chainToggle"
-                value="consensus"
-                checked={selectedChain === 'consensus'}
-                onChange={() => setSelectedChain('consensus')}
-              >
-                Consensus Chain
-              </ToggleButton>
-              <ToggleButton
-                id="toggle-autoevm"
-                type="radio"
-                variant={selectedChain === 'autoEvm' ? 'primary' : 'outline-primary'}
-                name="chainToggle"
-                value="autoEvm"
-                checked={selectedChain === 'autoEvm'}
-                onChange={() => setSelectedChain('autoEvm')}
-              >
-                Auto EVM
-              </ToggleButton>
-            </ButtonGroup>
+            <SegmentedControl
+              name="chainToggle"
+              ariaLabel="Select chain"
+              value={selectedChain}
+              onChange={setSelectedChain}
+              options={[
+                { value: 'consensus', label: 'Consensus Chain' },
+                { value: 'autoEvm', label: 'Auto EVM' },
+              ]}
+            />
           </div>
         </div>
       </div>

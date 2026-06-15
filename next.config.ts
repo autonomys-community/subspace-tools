@@ -8,7 +8,7 @@ const nextConfig = {
   sassOptions: {
     // Bootstrap 5.3 still uses @import internally; silence the Dart Sass
     // deprecation noise until Bootstrap migrates to @use.
-    silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
+    silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function', 'legacy-js-api'],
   },
 };
 
