@@ -14,6 +14,19 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={`${inter.className} d-flex flex-column min-vh-100`}>
       <Head>
+        {/*
+          Baseline defense-in-depth CSP. Only the directives that are safe to
+          enforce from a static-export <meta> tag (no server, so no nonces):
+          none of these govern script/style/connect, so hydration, Bootstrap,
+          RPC/indexer calls, and wallet connect are unaffected.
+          The high-value pieces — a connect-src allowlist and frame-ancestors
+          (anti-clickjacking) — are deferred until Pages sits behind a CDN that
+          can set real headers and a Report-Only rollout. See issue #30.
+        */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
         <title>Subspace Tools</title>
         <meta name="description" content="A collection of tools for working with the Autonomys Network and ecosystem." />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
