@@ -8,7 +8,9 @@
     "build": "next build",
     "predeploy": "npm run build",
     "deploy": "echo > out/.nojekyll && gh-pages -d out --branch=gh-pages --dotfiles",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:onchain": "RUN_ONCHAIN=1 vitest run"
   },
   "dependencies": {
     "@autonomys/auto-utils": "^1.6.14",
@@ -32,7 +34,8 @@
     "eslint-config-next": "15.5.18",
     "gh-pages": "^6.3.0",
     "sass": "^1.101.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.9"
   },
   "overrides": {
     "bn.js": "5.2.3",
